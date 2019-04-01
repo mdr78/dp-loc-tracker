@@ -1,0 +1,30 @@
+[submodule "DPDK"]
+	path = projects/DPDK
+	url = http://dpdk.org/git/dpdk-stable
+
+[submodule "contrail-vrouter"]
+	path = projects/contrail-vrouter
+	url = https://github.com/Juniper/contrail-vrouter.git
+
+[submodule "mTCP"]
+	path = projects/mTCP
+	url = https://github.com/mtcp-stack/mtcp.git
+	
+[submodule "VPP"]
+	path = projects/vpp
+	url = https://git.fd.io/vpp
+
+[submodule "OVS"]
+	path = projects/ovs
+	url = https://github.com/openvswitch/ovs.git
+
+[submodule "seastar"]
+	path = projects/seastar
+	url = https://github.com/scylladb/seastar.git
+
+[submodule "cloc"]
+        path = deps/cloc
+        url = https://github.com/AlDanial/cloc.git
+
+
+
