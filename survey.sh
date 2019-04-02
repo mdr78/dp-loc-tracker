@@ -113,7 +113,7 @@ do
        tag_data=($(echo $tag_date | sed 's/,/ /g'))
        tag=$(echo ${tag_data[0]} | sed 's/refs\/tags\///')
 
-       [[ $IGNORE_RC == 1 && $tag == *"rc"* ]] && continue
+       [[ $IGNORE_RC == 1 && ( $tag == *"rc"* ||  $tag == *"pre"* ) ]] && continue
        [[ $IGNORE_POINT == 1 && $tag =~ ([0-9]+\.){2}([0-9]+) && ${BASH_REMATCH[2]} > 0 ]] && continue
 
        if [[ -z ${tag_data[1]} ]]
