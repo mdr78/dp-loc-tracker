@@ -31,7 +31,7 @@ function analyze_version() {
     exclude=""
 
     [[ -f "quirks/$project.ignore" ]] && exclude="--exclude-list-file=quirks/$project.ignore"
-    
+
     readarray -t cloc_output <<< `deps/cloc/cloc $exclude projects/$project | egrep '^C |Header|make|CMake'`
     for i in "${cloc_output[@]}";
     do
@@ -115,7 +115,7 @@ do
 
        [[ $IGNORE_RC == 1 && $tag == *"rc"* ]] && continue
        [[ $IGNORE_POINT == 1 && $tag =~ ([0-9]+\.){2}([0-9]+) && ${BASH_REMATCH[2]} > 0 ]] && continue
-       
+
        if [[ -z ${tag_data[1]} ]]
        then
 	   tag_date=${tag_data[2]}
