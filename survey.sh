@@ -1,6 +1,9 @@
+
 #!/bin/bash
 
 SILENT=1
+IGNORE_POINT=1
+IGNORE_RC=1
 survey_projects=(`ls projects/`)
 
 redirect_cmd() {
@@ -25,8 +28,11 @@ function analyze_version() {
     c=0
     code=0
     col_name=""
+    exclude=""
 
-    readarray -t cloc_output <<< `deps/cloc/cloc projects/$project | egrep '^C |Header|make|CMake'`
+    [[ -f "quirks/$project.ignore" ]] && exclude="--exclude-list-file=quirks/$project.ignore"
+    
+    readarray -t cloc_output <<< `deps/cloc/cloc $exclude projects/$project | egrep '^C |Header|make|CMake'`
     for i in "${cloc_output[@]}";
     do
 	values=($i)
@@ -79,13 +85,19 @@ function delete_branch() {
    redirect_cmd git -C projects/$project branch -D local-$tag_name
 }
 
-while getopts "h:s:" arg; do
+while getopts "hspv" arg; do
     case $arg in
 	h)
 	    echo "//TODO"
 	    ;;
 	v)
 	    unset SILENT
+	    ;;
+	p)
+	    IGNORE_POINT=0
+	    ;;
+	r)
+	    IGNORE_RC=0
 	    ;;
     esac
 done
@@ -101,7 +113,9 @@ do
        tag_data=($(echo $tag_date | sed 's/,/ /g'))
        tag=$(echo ${tag_data[0]} | sed 's/refs\/tags\///')
 
-       [[ $tag == *"rc"* ]] && continue
+       [[ $IGNORE_RC == 1 && $tag == *"rc"* ]] && continue
+       [[ $IGNORE_POINT == 1 && $tag =~ ([0-9]+\.){2}([0-9]+) && ${BASH_REMATCH[2]} > 0 ]] && continue
+       
        if [[ -z ${tag_data[1]} ]]
        then
 	   tag_date=${tag_data[2]}
