@@ -50,6 +50,9 @@ function analyze_version() {
 	    " C")
 		c=$((values[last_col-1]))
 		;;
+    	    " C++")
+		c=$((values[last_col-1]))
+		;;
 	    " make")
 		make=$((values[last_col-1]))
 		;;
